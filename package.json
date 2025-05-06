@@ -1,7 +1,7 @@
 {
     "name": "fastroadscircuitboard",
     "version": "1.0.0",
-    "description": "Slowroads.io but controlled wiht a circuit board",
+    "description": "Slowroads.io but controlled with a circuit board",
     "main": "server.js",
     "bin": "server.js",
     "scripts": {
@@ -12,7 +12,12 @@
     },
     "pkg": {
       "assets": [
-        "public/**/*"
+        "public/**/*",
+        "favicon_circle.svg",
+        "alea.min.js",
+        "index.html",
+        "manifest.json",
+        "null.html"
       ]
     }
   }
