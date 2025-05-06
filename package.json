@@ -1,0 +1,14 @@
+{
+    "name": "fastroadscircuitboard",
+    "version": "1.0.0",
+    "description": "Slow roads but using a circuit board",
+    "main": "server.js",
+    "bin": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.4"
+    }
+  }
+  

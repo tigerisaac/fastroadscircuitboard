@@ -1,0 +1,34 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install pkg
+        run: npm install -g pkg
+
+      - name: Build EXE
+        run: pkg . --targets node18-win-x64 --output fastroads.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: fastroads-exe
+          path: fastroads.exe
