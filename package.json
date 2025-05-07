@@ -1,6 +1,6 @@
 {
     "name": "fastroadscircuitboard",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Slowroads.io but controlled with a circuit board",
     "main": "server.js",
     "bin": "server.js",
@@ -17,7 +17,8 @@
         "alea.min.js",
         "index.html",
         "manifest.json",
-        "null.html"
+        "null.html",
+        "public/joystick-bridge.js"
       ]
     }
   }
