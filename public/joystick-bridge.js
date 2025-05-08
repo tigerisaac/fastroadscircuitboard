@@ -1,11 +1,11 @@
 (async () => {
-  const useJoystick = confirm("Use Arduino joystick? Click 'Cancel' to use keyboard.");
+  const useKeyboard = confirm("Use keyboard + mouse instead of joystick?");
 
   window.input = window.input || { key: {} };
 
-  if (!useJoystick) {
-    console.log("Using keyboard input.");
-    return; // WASD will work as normal
+  if (useKeyboard) {
+    console.log("Using keyboard + mouse controls.");
+    return;
   }
 
   if (!("serial" in navigator)) {
@@ -14,22 +14,24 @@
   }
 
   try {
-    const port = await navigator.serial.requestPort();
+    const ports = await navigator.serial.getPorts();
+    const port = ports.find(p => p.getInfo().usbProductId !== undefined) || await navigator.serial.requestPort();
+
     await port.open({ baudRate: 9600 });
+
     const decoder = new TextDecoderStream();
     const inputDone = port.readable.pipeTo(decoder.writable);
     const reader = decoder.readable.getReader();
 
-    console.log("Joystick connected.");
+    const mid = 512;
+    const deadzone = 100;
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
+
       const [x, y] = value.trim().split(',').map(Number);
       if (isNaN(x) || isNaN(y)) continue;
-
-      const deadzone = 100;
-      const mid = 512;
 
       window.input.key["KeyW"] = y < (mid - deadzone);
       window.input.key["KeyS"] = y > (mid + deadzone);
@@ -39,7 +41,7 @@
 
     reader.releaseLock();
   } catch (err) {
-    alert("Failed to open serial port: " + err);
+    alert("Could not access joystick on COM4: " + err.message);
     console.error(err);
   }
 })();

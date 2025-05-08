@@ -17,8 +17,7 @@
         "alea.min.js",
         "index.html",
         "manifest.json",
-        "null.html",
-        "public/joystick-bridge.js"
+        "null.html"
       ]
     }
   }
