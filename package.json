@@ -5,20 +5,30 @@
     "main": "server.js",
     "bin": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js",
+        "build": "pkg . --targets node18-win-x64 --output fastroads.exe"
     },
     "dependencies": {
-      "express": "^4.18.4"
+        "@serialport/parser-readline": "^12.0.0",
+        "express": "^4.18.2",
+        "robotjs": "^0.6.0",
+        "serialport": "^12.0.0",
+        "socket.io": "^4.7.4"
+    },
+    "devDependencies": {
+        "pkg": "^5.8.1"
     },
     "pkg": {
-      "assets": [
-        "public/**/*",
-        "favicon_circle.svg",
-        "alea.min.js",
-        "index.html",
-        "manifest.json",
-        "null.html"
-      ]
+        "scripts": [],
+        "assets": [
+            "public/**/*",
+            "node_modules/serialport/build/Release/serialport.node",
+            "node_modules/@serialport/bindings-cpp/build/Release/bindings.node",
+            "node_modules/robotjs/build/Release/robotjs.node"
+        ],
+        "targets": [
+            "node18-win-x64"
+        ],
+        "outputPath": "."
     }
-  }
-  
+}

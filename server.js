@@ -18,7 +18,7 @@ app.get('*', (_, res) => {
 });
 
 // --- JOYSTICK BRIDGE ---
-const ARDUINO_PORT = 'COM3'; // Change this to your Arduino's actual port
+const ARDUINO_PORT = 'COM4';
 const BAUD = 9600;
 
 try {

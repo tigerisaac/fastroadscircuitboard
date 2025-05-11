@@ -2,33 +2,43 @@ name: Build Windows Executable
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ] # Consider changing to 'main' if that's your default branch
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest # This is correct for building a Windows .exe
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 18 # Matches your pkg target
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install project dependencies
+        run: npm install # This will install dependencies from package.json
 
-      - name: Install pkg
-        run: npm install -g pkg
+      # pkg is now a devDependency, so no need to install globally in the CI
+      # - name: Install pkg
+      #   run: npm install -g pkg
 
-      - name: Build EXE
-        run: pkg . --targets node18-win-x64 --output fastroads.exe
+      - name: Build EXE using pkg
+        # Uses the pkg defined in devDependencies
+        # The command in package.json scripts.build is "pkg . --targets node18-win-x64 --output fastroads.exe"
+        # So, `npm run build` will execute this.
+        run: npm run build
+        # Or, if you prefer to call pkg directly in CI:
+        # run: npx pkg . --targets node18-win-x64 --output fastroads.exe
 
-      - name: Upload EXE
+      - name: List files in current directory # For debugging, to see if fastroads.exe was created
+        run: dir
+
+      - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fastroads-exe
-          path: fastroads.exe
+          name: fastroads-windows-exe # More descriptive artifact name
+          path: fastroads.exe # This path assumes fastroads.exe is created in the root.
+                              # If pkg.outputPath is "dist", then path should be "dist/fastroads.exe"
